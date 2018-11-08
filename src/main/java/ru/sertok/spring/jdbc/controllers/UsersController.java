@@ -1,26 +1,22 @@
 package ru.sertok.spring.jdbc.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 import ru.sertok.spring.jdbc.dao.api.UserDao;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-public class UsersController implements Controller {
-
+@Controller
+public class UsersController {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        if (httpServletRequest.getMethod().equals("GET")){
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("users");
-            modelAndView.addObject("users",userDao.findAll());
-            return modelAndView;
-        }
-            return null;
+    @RequestMapping(path="/users", method = RequestMethod.GET)
+    public ModelAndView getUsers(){
+        ModelAndView modelAndView = new ModelAndView("users");
+        modelAndView.addObject("users",userDao.findAll());
+        return modelAndView;
     }
 }

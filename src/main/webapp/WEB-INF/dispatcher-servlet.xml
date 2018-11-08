@@ -12,7 +12,7 @@
         <property name="password" value="12355789"/>
     </bean>
 
-    <bean id="/users" class="ru.sertok.spring.jdbc.controllers.UsersController"/>
+    <bean id="/simple/users" class="ru.sertok.spring.jdbc.controllers.SimpleUsersController"/>
     <bean id="/home" class="ru.sertok.spring.jdbc.controllers.HomeController"/>
     <bean id="/login" class="ru.sertok.spring.jdbc.controllers.LoginController"/>
     <bean id="/signUp" class="ru.sertok.spring.jdbc.controllers.SignUpController"/>
@@ -21,6 +21,6 @@
         <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
+    <mvc:annotation-driven/>
     <mvc:resources mapping="/css/styles.css" location="/css"/>
 </beans>
