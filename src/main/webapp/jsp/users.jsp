@@ -19,7 +19,7 @@
             <th>День рождения</th>
         </tr>
         <c:forEach items="${users}" var="user">
-            <tr>
+            <tr onClick="location.href=location.pathname.concat('/${user.id}')">
                 <td>${user.name}</td>
                 <td>${user.birthDate}</td>
             </tr>

@@ -1,4 +1,4 @@
-package ru.sertok.spring.jdbc.controllers;
+package ru.sertok.spring.jdbc.controllers.simple;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;

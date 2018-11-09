@@ -12,10 +12,10 @@
         <property name="password" value="12355789"/>
     </bean>
 
-    <bean id="/simple/users" class="ru.sertok.spring.jdbc.controllers.SimpleUsersController"/>
-    <bean id="/home" class="ru.sertok.spring.jdbc.controllers.HomeController"/>
-    <bean id="/login" class="ru.sertok.spring.jdbc.controllers.LoginController"/>
-    <bean id="/signUp" class="ru.sertok.spring.jdbc.controllers.SignUpController"/>
+    <bean id="/simple/users" class="ru.sertok.spring.jdbc.controllers.simple.SimpleUsersController"/>
+    <bean id="/simple/home" class="ru.sertok.spring.jdbc.controllers.simple.SimpleHomeController"/>
+    <bean id="/simple/login" class="ru.sertok.spring.jdbc.controllers.simple.SimpleLoginController"/>
+    <bean id="/simple/signUp" class="ru.sertok.spring.jdbc.controllers.simple.SimpleSignUpController"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/jsp/"/>

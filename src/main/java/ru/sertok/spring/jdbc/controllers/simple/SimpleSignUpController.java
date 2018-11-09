@@ -1,16 +1,18 @@
-package ru.sertok.spring.jdbc.controllers;
+package ru.sertok.spring.jdbc.controllers.simple;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import ru.sertok.spring.jdbc.dao.api.UserDao;
+import ru.sertok.spring.jdbc.model.User;
 import ru.sertok.spring.jdbc.utils.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.sql.Date;
 
-public class LoginController implements Controller {
+public class SimpleSignUpController implements Controller {
+
     @Autowired
     private UserDao userDao;
 
@@ -19,17 +21,15 @@ public class LoginController implements Controller {
         switch (httpServletRequest.getMethod()) {
             case "GET":
                 ModelAndView modelAndView = new ModelAndView();
-                modelAndView.setViewName("login");
+                modelAndView.setViewName("signUp");
                 return modelAndView;
             case "POST":
                 String name = Utils.decode(httpServletRequest.getParameter("name"));
                 String password = httpServletRequest.getParameter("password");
-                if (userDao.isExist(name, password)) {
-                    HttpSession session = httpServletRequest.getSession();
-                    session.setAttribute("user", name);
-                    httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/users");
-                } else
-                    httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");
+                Date birthDate = Date.valueOf(httpServletRequest.getParameter("birthDate"));
+                userDao.save(User.builder().name(name).password(Utils.hash(password)).birthDate(birthDate).build()
+                );
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/users");
             default:
                 return null;
         }

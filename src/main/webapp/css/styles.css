@@ -11,6 +11,10 @@ div{
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
+tr:hover{
+    color:blue;
+    cursor: pointer;
+}
 
 .homeButton{
     width: 40px;

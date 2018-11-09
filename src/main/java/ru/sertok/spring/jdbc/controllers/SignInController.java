@@ -7,29 +7,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sertok.spring.jdbc.dao.api.UserDao;
-import ru.sertok.spring.jdbc.model.User;
-import ru.sertok.spring.jdbc.utils.Utils;
 
-import java.sql.Date;
 
 @Controller
-@RequestMapping(path = "/signUp")
-public class SignUpController {
+@RequestMapping(path = "/signIn")
+public class SignInController {
 
     @Autowired
     private UserDao userDao;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView get() {
-        return new ModelAndView("signUp");
+        return new ModelAndView("signIn");
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String post(
-            @RequestParam("name") String name,
-            @RequestParam("password") String password,
-            @RequestParam("birthDate") Date birthDate) {
-        userDao.save(User.builder().name(name).password(Utils.hash(password)).birthDate(birthDate).build());
-        return "redirect:/users";
+    public String post(@RequestParam("name") String name, @RequestParam("password") String password) {
+        if (userDao.isExist(name, password))
+            return "redirect:/users";
+        return "redirect:/login";
     }
 }

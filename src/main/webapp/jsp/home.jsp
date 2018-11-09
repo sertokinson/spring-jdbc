@@ -14,8 +14,8 @@
 <body>
 <div class="home">
     <form method="post">
-        <button class="button" id="registration" value="registration" name="registration">Зарегестрироваться</button>
-        <button class="button" id="signIn" value="signIn" name="signIn">Войти</button>
+        <button class="button" id="signUp" value="signUp" name="redirect">Зарегестрироваться</button>
+        <button class="button" id="signIn" value="signIn" name="redirect">Войти</button>
     </form>
 </div>
 </body>

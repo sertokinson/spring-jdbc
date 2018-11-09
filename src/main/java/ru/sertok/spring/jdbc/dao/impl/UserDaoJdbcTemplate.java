@@ -23,7 +23,7 @@ public class UserDaoJdbcTemplate implements UserDao {
     private String[] mutableHash = new String[1];
 
     private RowMapper<User> rowMapper = (resultSet, i) -> User.builder()
-            .id(resultSet.getInt(ID))
+            .id(resultSet.getLong(ID))
             .name(resultSet.getString(NAME))
             .birthDate(resultSet.getDate(BIRTH_DATE))
             .password(resultSet.getString(PASSWORD)).build();
@@ -39,7 +39,7 @@ public class UserDaoJdbcTemplate implements UserDao {
     }
 
     @Override
-    public Optional<User> find(Integer id) {
+    public Optional<User> find(Long id) {
         List<User> query = jdbcTemplate.query(SELECT_BY_ID, rowMapper, id);
         return Optional.of(query.get(0));
     }
@@ -50,7 +50,7 @@ public class UserDaoJdbcTemplate implements UserDao {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         throw new UnsupportedOperationException();
     }
 
