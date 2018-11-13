@@ -1,8 +1,8 @@
 package ru.sertok.spring.jdbc.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.sertok.spring.jdbc.dao.api.UserDao;
 import ru.sertok.spring.jdbc.model.User;
@@ -10,6 +10,7 @@ import ru.sertok.spring.jdbc.utils.Utils;
 
 import javax.sql.DataSource;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ import static ru.sertok.spring.jdbc.utils.Query.*;
 @Component
 public class UserDaoJdbcTemplate implements UserDao {
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
     private String[] mutableHash = new String[1];
 
     private RowMapper<User> rowMapper = (resultSet, i) -> User.builder()
@@ -30,17 +31,23 @@ public class UserDaoJdbcTemplate implements UserDao {
 
     @Autowired
     public UserDaoJdbcTemplate(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Override
     public void save(User model) {
-        jdbcTemplate.update(INSERT,model.getName(),model.getPassword(),model.getBirthDate());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name",model.getName());
+        map.put("password",model.getPassword());
+        map.put("birthDate",model.getBirthDate());
+        jdbcTemplate.update(INSERT,map);
     }
 
     @Override
     public Optional<User> find(Long id) {
-        List<User> query = jdbcTemplate.query(SELECT_BY_ID, rowMapper, id);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",id);
+        List<User> query = jdbcTemplate.query(SELECT_BY_ID, map,rowMapper);
         return Optional.of(query.get(0));
     }
 
@@ -60,7 +67,9 @@ public class UserDaoJdbcTemplate implements UserDao {
     }
 
     public Boolean isExist(String name, String password) {
-            List<User> listUsers = jdbcTemplate.query(SELECT_BY_NAME,rowMapper,name);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name",name);
+            List<User> listUsers = jdbcTemplate.query(SELECT_BY_NAME,map,rowMapper);
             for (User user : listUsers) {
                 if (user.getName().equals(name) && Utils.verifyAndUpdateHash(password, user.getPassword(), hash -> {
                     mutableHash[0] = hash;
