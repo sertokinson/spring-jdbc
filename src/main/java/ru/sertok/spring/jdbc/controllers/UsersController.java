@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sertok.spring.jdbc.dao.api.UserDao;
 
-import java.io.IOException;
 import java.util.Collections;
-import java.util.Properties;
 
 @Controller
 public class UsersController {

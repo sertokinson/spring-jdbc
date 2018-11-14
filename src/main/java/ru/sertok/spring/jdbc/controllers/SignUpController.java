@@ -25,11 +25,8 @@ public class SignUpController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String post(
-            @RequestParam("name") String name,
-            @RequestParam("password") String password,
-            @RequestParam("birthDate") Date birthDate) {
-        userDao.save(User.builder().name(name).password(Utils.hash(password)).birthDate(birthDate).build());
+    public String post(User user) {
+        userDao.save(user);
         return "redirect:/users";
     }
 }
